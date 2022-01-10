@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/sbaue/coding/Itasca_project_19-20')
 
 
 library(tidyverse)
@@ -16,10 +16,16 @@ library(stringr)
 
 ```
 
+
+setwd("C:/Users/sbaue/coding/Itasca_project_19-20")
+```
+
 ## R Markdown
 
 ```{r }
+
 getwd()
+
 m <- list.files("./2021_ibuttons_copy/", pattern = "*.csv")
 
 file_df <- data.frame(paths = m, name = str_replace(m, ".csv",""), full_paths = list.files("./2021_ibuttons_copy/", pattern = "*.csv", full.names = TRUE))
