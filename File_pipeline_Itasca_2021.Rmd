@@ -1,0 +1,27 @@
+---
+title: "File_pipeline_Itasca_2021"
+author: "Sara DeLaurentis"
+date: "1/10/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library(tidyverse)
+library(readxl)
+library(glue)
+library(stringr)
+
+```
+
+## R Markdown
+
+```{r }
+
+
+
+
+
+```
