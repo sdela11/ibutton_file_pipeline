@@ -17,16 +17,13 @@ library(stringr)
 ```
 
 
-setwd("C:/Users/sbaue/coding/Itasca_project_19-20")
-```
-
 ## R Markdown
 
 ```{r }
 
-getwd()
-
 m <- list.files("./2021_ibuttons_copy/", pattern = "*.csv")
+m
+
 
 file_df <- data.frame(paths = m, name = str_replace(m, ".csv",""), full_paths = list.files("./2021_ibuttons_copy/", pattern = "*.csv", full.names = TRUE))
 
@@ -93,54 +90,6 @@ map2(df_master$full_paths, df_master$sensor, create_csv)
 
 ```
 
-
-##Let's try this on the remaining files.
-changed location name to 2021_ibuttons_copy_B2
-
-```{r }
-
-
-m <- list.files("./2021_ibuttons_copy_B2/", pattern = "*.csv")
-m
-
-file_df <- data.frame(paths = m, name = str_replace(m, ".csv",""), full_paths = list.files("./2021_ibuttons_copy_B2/", pattern = "*.csv", full.names = TRUE))
-
-summary(file_df)
-
-f <- file_df$name 
-g <- as.data.frame(str_split_fixed(f, "_", 3))
-
-
-master <- cbind(file_df,g)
-colnames(master) <- c("paths", "name", "full_paths", "sensor", "serial" , "upload_date")
-
-summary(master)
-
-create_csv <- function(full_paths, sensor){
-  temps <- read_csv(full_paths, skip = 20)
-  colnames(temps) <- c("date.time", "unit", "value")
-  write_csv(temps, glue("./CLEAN_DATA/{sensor}_2020.csv"))
-}
-
-df_master <- master %>% 
-  select(full_paths, sensor) %>% 
-  mutate(full_paths = as.character(full_paths))
-
-summary(df_master)
-
-pwalk(df_master, create_csv)
-
-
-map2(df_master$full_paths, df_master$sensor, create_csv)
-
-
-create_csv("./2021_ibuttons_copy_B2/i11_3E00000069B0E841_083020.csv", "i11")
-
-
-
-```
-## Not sure why there are missing column names filled in. In the newly-created csv file, 3-4 columns are filled with NA. 
-What's going on here?
 
 
 
