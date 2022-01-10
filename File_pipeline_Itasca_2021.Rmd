@@ -65,7 +65,7 @@ map2 uses 2 columns (df_master$full_paths, df_master$sensor) and uses the row po
 create_csv <- function(full_paths, sensor){
   temps <- read_csv(full_paths, skip = 20)
   colnames(temps) <- c("date.time", "unit", "value")
-  write_csv(temps, glue("./CLEAN_DATA/{sensor}_2020.csv"))
+  write_csv(temps, glue("./2021/{sensor}_2020.csv"))
 }
 
 #Test the function
