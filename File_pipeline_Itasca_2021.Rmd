@@ -88,7 +88,7 @@ create_csv("./2021_ibuttons_copy/i11_3E00000069B0E841_083020.csv", "i11")
 
 #creating list of full_paths and sensors for input into the create_csv function
 df_master <- master %>% 
-  select(full_paths, sensor) %>% 
+  select(full_paths, new_name) %>% 
   mutate(full_paths = as.character(full_paths))
 
 head(df_master)
