@@ -43,6 +43,11 @@ master <- merge(master, h, by.x = "sensor", by.y = "button_id")
 
 head(master)
 
+#Create name column with desired strings
+
+master$new_name <- str_c(master$site, master$rep, master$position, master$sensor, master$season, sep = "_")
+head(master)
+view(master)
 
 ```
 ## Endgame:
