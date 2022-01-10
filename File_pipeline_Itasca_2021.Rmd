@@ -32,9 +32,18 @@ g <- as.data.frame(str_split_fixed(f, "_", 3))
 
 master <- cbind(file_df,g)
 colnames(master) <- c("paths", "name", "full_paths", "sensor", "serial" , "upload_date")
+master
 
+h <- read.csv("2021_ibutton_names_clean.csv") %>% 
+  as.data.frame()
+head(h)
+
+
+master <- merge(master, h, by.x = "sensor", by.y = "button_id")
 
 head(master)
+
+
 ```
 ## Endgame:
 We will be using pwalk or map2 from tidyverse to iterate the create_csv function over a list of files. We will first create the function, and then we will create the list of inputs to use with our iterating function (pwalk or map2).
