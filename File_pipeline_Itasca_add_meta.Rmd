@@ -53,11 +53,11 @@ add_meta <- function(full_paths,labels){
   meta <- labels %>%    
    str_split_fixed("_", n=5)
     #name all the columns
-    treatment <- fileNM[,1]
-    rep <- fileNM[,2]
-    position <- fileNM[,3]
-    buttonID <- fileNM[,4]
-    season <- fileNM[,5]
+    treatment <- meta[,1]
+    rep <- meta[,2]
+    position <- meta[,3]
+    buttonID <- meta[,4]
+    season <- meta[,5]
     
   head(meta)
     
