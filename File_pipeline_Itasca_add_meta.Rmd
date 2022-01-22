@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #3. join
 ```{r }
 
-
+setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_copy")
   
   file.names <- list.files(pattern = ".csv", full.names = FALSE) #create list of .csv files
 name.data <- file.names %>%  #create dataframe from file.names
@@ -57,10 +57,11 @@ fileNM <- df_daily_input$labels %>%
     #bind the metadata_df and temperature data for the final csv output.
     temp_df <- cbind(metadata_df, temps)
     
-      
-  #write the .csv. CHANGE TO dailytest folder IF YOU'RE TESTING
-      
-  write_csv(temp_df, glue("./dailytest/Daily_{labels}.csv"))}
+      #temporarily change working directory for .csv saving.
+    
+    setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21")
+  
+    write_csv(temp_df, glue("./meta_{labels}.csv"))}
 
 
 ```
