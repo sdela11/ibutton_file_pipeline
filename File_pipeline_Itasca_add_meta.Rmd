@@ -59,7 +59,7 @@ fileNM <- df_daily_input$labels %>%
     
       #temporarily change working directory for .csv saving.
     
-    setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21")
+    setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_with_meta")
   
     write_csv(temp_df, glue("./meta_{labels}.csv"))}
 
