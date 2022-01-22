@@ -15,6 +15,7 @@ library(stringr)
 library(stringi)
 library(dplyr)
 library(lubridate)
+library(glue)
 
 ```
 
@@ -25,7 +26,7 @@ library(lubridate)
 #3. join
 ```{r }
 
-setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_copy")
+setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/Itasca_time_series_analysis")
   
   file.names <- list.files(pattern = ".csv", full.names = FALSE) #create list of .csv files
 name.data <- file.names %>%  #create dataframe from file.names
@@ -45,10 +46,12 @@ head(df_daily_input)
 tail(df_daily_input)
 
 #create a dataframe of the "label" elements
-add_meta <- function(foo,bar){
-
-fileNM <- df_daily_input$labels %>%  
-      str_split_fixed("_", n=5)
+add_meta <- function(full_paths,labels){
+  
+  setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/Itasca_time_series_analysis")
+  temps <- read.csv(full_paths)
+  meta <- labels %>%    
+   str_split_fixed("_", n=5)
     #name all the columns
     treatment <- fileNM[,1]
     rep <- fileNM[,2]
@@ -56,20 +59,21 @@ fileNM <- df_daily_input$labels %>%
     buttonID <- fileNM[,4]
     season <- fileNM[,5]
     
-  head(fileNM)
+  head(meta)
     
     #new dataframe with metadata, setting length equal to the number of rows in the temp_intA, longdate column:
   #  metadata_df <- tibble(labels, treatment, rep, position, buttonID, year, .rows = length(temp_intA$longdate))
     #print(metadata_df)
     
     #bind the metadata_df and temperature data for the final csv output.
-    temp_df <- cbind(metadata_df, temps)
-    
+    temp_df <- cbind(meta, temps)
       #temporarily change working directory for .csv saving.
     
     setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_with_meta")
   
     write_csv(temp_df, glue("./meta_{labels}.csv"))}
+
+add_meta("./C2A_R3_m0surf_i39_2020.csv", "C2A_R3_m0surf_i39_2020")
 
 
 ```
