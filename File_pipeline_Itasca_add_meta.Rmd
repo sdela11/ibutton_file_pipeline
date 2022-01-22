@@ -8,6 +8,14 @@ purpose: Attach BASE columns of metadata that will be helpful for analysis.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+
+library(tidyverse)
+library(stringr)
+library(stringi)
+library(dplyr)
+library(lubridate)
+
 ```
 
 ## R Markdown
