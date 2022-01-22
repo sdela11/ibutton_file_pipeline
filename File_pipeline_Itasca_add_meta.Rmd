@@ -40,10 +40,10 @@ full.file.names <- list.files(pattern = ".csv", full.names = TRUE) %>% #create d
 #full.file.names <- list.files(pattern = ".csv", full.names = TRUE) 
 #head(full.file.names)
 
-df_daily_input <- cbind(full.file.names, name.data) #bind the two dataframes together
-colnames(df_daily_input) <- c("full_paths", "labels")
-head(df_daily_input)
-tail(df_daily_input)
+input_df <- cbind(full.file.names, name.data) #bind the two dataframes together
+colnames(input_df) <- c("full_paths", "labels")
+head(input_df)
+tail(input_df)
 
 #create a dataframe of the "label" elements
 add_meta <- function(full_paths,labels){
@@ -51,16 +51,18 @@ add_meta <- function(full_paths,labels){
   setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/Itasca_time_series_analysis")
   temps <- read.csv(full_paths)
   meta <- labels %>%    
-   str_split_fixed("_", n=5)
+   str_split_fixed("_", n=5) %>% 
+    as.data.frame()
+  colnames(meta) <- c("treatment", "rep", "position", "buttonID", "season")
     #name all the columns
-    treatment <- meta[,1]
-    rep <- meta[,2]
-    position <- meta[,3]
-    buttonID <- meta[,4]
-    season <- meta[,5]
+    #treatment <- meta[,1]
+   # rep <- meta[,2]
+   # position <- meta[,3]
+   # buttonID <- meta[,4]
+   # season <- meta[,5]
     
   head(meta)
-    
+  meta$labels <- labels  
     #new dataframe with metadata, setting length equal to the number of rows in the temp_intA, longdate column:
   #  metadata_df <- tibble(labels, treatment, rep, position, buttonID, year, .rows = length(temp_intA$longdate))
     #print(metadata_df)
@@ -75,6 +77,7 @@ add_meta <- function(full_paths,labels){
 
 add_meta("./C2A_R3_m0surf_i39_2020.csv", "C2A_R3_m0surf_i39_2020")
 
+pwalk()
 
 ```
 
