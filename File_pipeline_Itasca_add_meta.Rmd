@@ -26,7 +26,7 @@ library(glue)
 #3. join
 ```{r }
 
-setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/Itasca_time_series_analysis")
+setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_copy")
   
   file.names <- list.files(pattern = ".csv", full.names = FALSE) #create list of .csv files
 name.data <- file.names %>%  #create dataframe from file.names
@@ -44,6 +44,7 @@ input_df <- cbind(full.file.names, name.data) #bind the two dataframes together
 colnames(input_df) <- c("full_paths", "labels")
 head(input_df)
 tail(input_df)
+view(input_df)
 
 #create a dataframe of the "label" elements
 add_meta <- function(full_paths,labels){
@@ -75,9 +76,9 @@ add_meta <- function(full_paths,labels){
   
     write_csv(temp_df, glue("./meta_{labels}.csv"))}
 
-add_meta("./C2A_R3_m0surf_i39_2020.csv", "C2A_R3_m0surf_i39_2020")
+#add_meta("./C2A_R3_m0surf_i39_2020.csv", "C2A_R3_m0surf_i39_2020") #Test case
 
-pwalk()
+pwalk(input_df, add_meta)
 
 ```
 
