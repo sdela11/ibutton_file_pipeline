@@ -49,18 +49,13 @@ view(input_df)
 #create a dataframe of the "label" elements
 add_meta <- function(full_paths,labels){
   
-  setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/Itasca_time_series_analysis")
+  setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_copy")
   temps <- read.csv(full_paths)
   meta <- labels %>%    
    str_split_fixed("_", n=5) %>% 
     as.data.frame()
-  colnames(meta) <- c("treatment", "rep", "position", "buttonID", "season")
-    #name all the columns
-    #treatment <- meta[,1]
-   # rep <- meta[,2]
-   # position <- meta[,3]
-   # buttonID <- meta[,4]
-   # season <- meta[,5]
+  colnames(meta) <- c("site", "rep", "position", "buttonID", "season")
+   
     
   head(meta)
   meta$labels <- labels  
@@ -70,8 +65,12 @@ add_meta <- function(full_paths,labels){
     
     #bind the metadata_df and temperature data for the final csv output.
     temp_df <- cbind(meta, temps)
-      #temporarily change working directory for .csv saving.
+    temp_df$unit <- NULL
+    temp_df$temp <- temp_df$value
+    temp_df <- temp_df[, c(6,1,2,3,4,5,7,8)]
     
+    
+      #temporarily change working directory for .csv saving.
     setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_with_meta")
   
     write_csv(temp_df, glue("./meta_{labels}.csv"))}
