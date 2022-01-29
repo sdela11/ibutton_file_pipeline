@@ -53,7 +53,8 @@ view(input_df)
 #create a dataframe of the "label" elements
 add_meta <- function(full_paths,labels){
   
-  setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_copy")
+ # setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_copy")
+  setwd("C:/Users/sbaue/coding/Itasca_project_19-21/CLEAN_DATA_copy")
   temps <- read.csv(full_paths)
   meta <- labels %>%    
    str_split_fixed("_", n=5) %>% 
@@ -74,7 +75,9 @@ add_meta <- function(full_paths,labels){
     
     
       #temporarily change working directory for .csv saving.
-    setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_with_meta")
+  #  setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_with_meta")
+     setwd("C:/Users/sbaue/coding/Itasca_project_19-21/CLEAN_DATA_with_meta")
+
   
     write_csv(temp_df, glue("./meta_{labels}.csv"))}
 
