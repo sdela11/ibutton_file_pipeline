@@ -26,7 +26,11 @@ library(glue)
 #3. join
 ```{r }
 
-setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_copy")
+#SWITCH WORKING DIRECTORY BASED ON DEVICE YOU'RE USING
+
+#setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_copy") #For Home desktop
+setwd("C:/Users/sbaue/coding/Itasca_project_19-21/CLEAN_DATA_copy") #For Lenovo Flex
+
   
   file.names <- list.files(pattern = ".csv", full.names = FALSE) #create list of .csv files
 name.data <- file.names %>%  #create dataframe from file.names
