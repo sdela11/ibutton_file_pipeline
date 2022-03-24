@@ -3,7 +3,7 @@ title: "File_pipeline_Itasca_add_meta"
 author: "Sara DeLaurentis"
 date: "1/21/2022"
 output: html_document
-purpose: Attach BASE columns of metadata that will be helpful for analysis.
+purpose: Attach BASE columns of metadata from filenames that will be helpful for analysis. ("site", "rep", "position", "buttonID", "season")
 ---
 
 ```{r setup, include=FALSE}
