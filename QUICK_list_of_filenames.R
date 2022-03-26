@@ -22,30 +22,37 @@ file.names <- list.files(pattern = "meta", full.names = FALSE) #create list of .
 name.data <- file.names %>%  #create dataframe from file.names, with ".csv" removed.
   str_replace(".csv", "") %>% #remove ".csv"
   str_replace("meta_", "") %>%  #remove "meta_"
-  as_data_frame() #coerce to dataframe
+  as.data.frame() #coerce to dataframe
 head(name.data)
 view(name.data)
 
-full.file.names <- list.files(pattern = "meta", full.names = TRUE) %>% #create dataframe out of list of full file names.
-  as_tibble()
+?as.data.frame
+
+# SKIP THIS PART FOR NOW
+
+#full.file.names <- list.files(pattern = "meta", full.names = TRUE) %>% #create dataframe out of list of full file names.
+#  as_tibble()
 
 #full.file.names <- list.files(pattern = ".csv", full.names = TRUE) 
 #head(full.file.names)
 
-input_df <- cbind(full.file.names, name.data) #bind the two dataframes together
-colnames(input_df) <- c("full_paths", "labels")
-head(input_df)
-tail(input_df)
-view(input_df)
+#input_df <- cbind(full.file.names, name.data) #bind the two dataframes together
+#colnames(input_df) <- c("full_paths", "labels")
+#head(input_df)
+#tail(input_df)
+#view(input_df)
 
-#create a dataframe of the "label" elements
-add_meta <- function(full_paths,labels){
-  
-  # setwd("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/CLEAN_DATA_copy")
-  setwd("C:/Users/sbaue/coding/Itasca_project_19-21/CLEAN_DATA_copy")
-  temps <- read.csv(full_paths)
-  meta <- labels %>%    
+
+name.data = name.data[-1,] #remove READ_ME file (will work if it's at the top)
+head(name.data)
+
+meta.df <- name.data %>%   
     str_split_fixed("_", n=5) %>% 
     as.data.frame()
-  colnames(meta) <- c("site", "rep", "position", "buttonID", "season")
+  colnames(meta.df) <- c("site", "rep", "position", "buttonID", "season")
+  
+view(meta.df)
+
+sensor_labels_csv <- cbind(name.data, meta.df) %>% 
+  write_csv("sensor_labels.csv")
 
