@@ -99,6 +99,8 @@ create_csv <- function(full_paths, new_name){
     colnames(temps) <- c("date.time", "unit", "value")
   }
   
+  round(temps$date.time, "minutes") #get rid of ALL of the seconds
+  
   write_csv(temps, glue("./2021/{new_name}.csv"))
 }
 
