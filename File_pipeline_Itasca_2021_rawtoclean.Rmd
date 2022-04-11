@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_knit$set(root.dir = 'C:/Users/sbaue/coding/Itasca_project_19-20')
+knitr::opts_knit$set(root.dir = 'C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-20')
 
 
 library(tidyverse)
@@ -21,7 +21,7 @@ library(stringr)
 
 ```{r }
 
-m <- list.files("./2021_ibuttons_copy/", pattern = "*.csv")
+m <- list.files("./ibuttons/", pattern = "*.csv")
 m
 
 
