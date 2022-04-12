@@ -22,7 +22,7 @@ library(glue)
 ## R Markdown
 
 #1. create a dataframe from list of files and list of truncated filenames ("labels").
-#2. split the truncated filenames into separate columns
+#2. split the truncated filename elements into separate columns
 #3. join
 ```{r }
 
