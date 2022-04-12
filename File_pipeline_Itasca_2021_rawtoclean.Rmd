@@ -20,6 +20,7 @@ library(stringr)
 ## R Markdown
 
 ```{r }
+setwd('C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-20')
 
 m <- list.files("./ibuttons/", pattern = "*.csv")
 m
