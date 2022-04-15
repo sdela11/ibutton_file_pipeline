@@ -151,7 +151,8 @@ for(i in 1:nrow(data.list.df)) {   #for(each variable in the sequence "1 through
 
 #Step 2: 
 
-csv_LIST <- lapply(seq_along(files.meta.list[1:8]), function(i){   
+csv_LIST <- lapply(seq_along(files.meta.list), function(i){   
+
   df <- read.csv(files.meta.list[[i]]$full_paths, header=TRUE, sep = ",") #create "df" by reading the .csv given by full_paths.
   df$site <- files.meta.list[[i]]$site    #next few rows are the addition of metadata columns based on the named element in the list. 
   df$rep <- files.meta.list[[i]]$rep
@@ -176,8 +177,8 @@ view(finalTable)
 #finalTable[(grep("12-28", finalTable$date.time)),] %>% filter(season == "2021")
 #view(OlsonNames())
 #output problem table if needed.
-#problems <- finalTable %>% filter(is.na(date.time))
-#view(problems)
+problems <- finalTable %>% filter(is.na(date.time))
+view(problems)
 #view(problems[problems$buttonID == "i45",])
 #view(finalTable[finalTable$buttonID == "i101" & finalTable$season == "2021",])
 
