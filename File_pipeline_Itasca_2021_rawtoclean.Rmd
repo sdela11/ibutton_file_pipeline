@@ -5,14 +5,22 @@ date: "1/10/2022"
 output: html_document
 ---
 
+
+#knitr::opts_chunk$set(root.dir = 'C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-20')
+
 ```{r setup, include=FALSE}
-knitr::opts_knit$set(root.dir = 'C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-20')
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21")
 
 
+#knitr::opts_knit
+#knitr::opts_chunk
 library(tidyverse)
 library(readxl)
 library(glue)
 library(stringr)
+
 
 ```
 
@@ -20,13 +28,14 @@ library(stringr)
 ## R Markdown
 
 ```{r }
-setwd('C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-20')
+
+getwd()
 
 m <- list.files("./ibuttons/", pattern = "*.csv")
 m
 
 
-file_df <- data.frame(paths = m, name = str_replace(m, ".csv",""), full_paths = list.files("./2021_ibuttons_copy/", pattern = "*.csv", full.names = TRUE))
+file_df <- data.frame(paths = m, name = str_replace(m, ".csv",""), full_paths = list.files("./ibuttons/", pattern = "*.csv", full.names = TRUE))
 
 f <- file_df$name #intermediate step, assigning "name" column to a variable to be used in g.
 g <- as.data.frame(str_split_fixed(f, "_", 3))
@@ -75,6 +84,93 @@ It's a good idea to run a test on one file before using pwalk or map2, which wil
 ## Iterate
 Use pwalk or map2. In this case, pwalk is fed the dataframe df_master, and will perform the function create_csv over each row.
 map2 uses 2 columns (df_master$full_paths, df_master$sensor) and uses the row position to match the inputs together. Both approaches will work.
+
+```{r }
+
+#create list of .csv files
+m <- list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv")
+m
+
+file_df <- data.frame(paths = m, name = str_replace(m, ".csv", ""), full_paths = list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv", full.names = TRUE))
+
+file_df
+
+meta <- file_df$name %>%   #take the name column 
+   str_split_fixed("_", n=5) %>% #split the strings, with _ as separator.
+   as.data.frame() #COERCE
+  colnames(meta) <- c("site", "rep", "position", "buttonID", "season") #
+  meta$CLEAN = NULL 
+  
+  
+data.list.df <- cbind(file_df, meta)
+  #  temp_df <- temp_df[, c(6,1,2,3,4,5,7,8)] # column re-ordering if necessary
+data.list.df <- data.list.df[order(data.list.df$site, data.list.df$rep, data.list.df$position, data.list.df$season), ] #for checking stuff
+
+data.list.df <- data.list.df[order(data.list.df$name),]
+
+view(data.list.df)
+
+```
+
+
+### THIS IS THE CODE YOU'VE BEEN LOOKING FOR !!! ###
+### VERY COOOlll lists ###
+
+#What this does:
+
+#1. Takes the dataframe we created from the names of the selected files, turns each ROW into ONE list element with "site", "rep", etc. as named elements contained inside.
+
+#2. Uses lapply to read in the .csv files and attaches metadata.
+
+
+```{r }
+
+files.meta.list <- list()                   # Create empty list
+
+for(i in 1:nrow(data.list.df)) {   #for(each variable in the sequence "1 through the number of rows in C2A"):
+                          
+  files.meta.list[[i]] <- data.list.df[i , ]  #create an element in files.meta.list from each row found in C2A
+}
+#print(files.meta.list)
+
+#Step 2: 
+
+csv_LIST <- lapply(seq_along(files.meta.list), function(i){   
+  df <- read.csv(files.meta.list[[i]]$full_paths, header=TRUE, sep = ",") #create "df" by reading the .csv given by full_paths.
+  df$site <- files.meta.list[[i]]$site    #next few rows are the addition of metadata columns based on the named element in the list. 
+  df$rep <- files.meta.list[[i]]$rep
+  df$position <- files.meta.list[[i]]$position
+  df$buttonID <- files.meta.list[[i]]$buttonID
+  df$season <- files.meta.list[[i]]$season
+  #Converting the date.time column. There are multiple date formats that need to be dealt with.
+  df$date.time <- if(grepl("M", df[1,"date.time"])){#    If there is an "M" present in the first row of date.time column (AM/PM), look for this format
+    print(df[1, "date.time"])
+    print(format(df[1, "date.time"]))
+    as.POSIXct(df$date.time, tryFormats = c("%m/%d/%y %I:%M:%S %p", "%m/%d/%Y %I:%M:%S %p"), tz = "") #just in case: origin = "1970-01-01 00:00:00 UTC",
+  }else{as.POSIXct(df$date.time, tz = "", tryFormats = c("%m/%d/%Y %H:%M", "%m/%d/%Y %H:%M:%S")) #if no "M", look for these formats instead.
+  }
+  df #VERY IMPORTANT. I don't know why, but without this call for the whole dataframe, you get left with just the last column you created.
+  })
+
+finalTable <- do.call(rbind, csv_LIST) ##JOIN TOGETHER
+
+str(finalTable)
+head(finalTable)
+view(finalTable)
+finalTable[(grep("12-28", finalTable$date.time)),] %>% filter(season == "2021")
+
+#output problem table if needed.
+#problems <- finalTable %>% filter(is.na(date.time))
+#view(problems)
+#view(problems[problems$buttonID == "i45",])
+#view(finalTable[finalTable$buttonID == "i101" & finalTable$season == "2021",])
+
+
+
+
+```
+##
+
 
 ```{r }
 
