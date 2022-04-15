@@ -16,8 +16,15 @@ library(stringr)
 
 ```
 
+## Making a dataframe from the filenames:
 
-## R Markdown
+#STEP 1: Make dataframe (file_df) to include: abridged filenames, the "name" (no '.csv'), full filenames
+#STEP 2: Split the name into its 3 elements: sensor #, serial #, and upload date.
+
+# 3- 5 only needed if using RAW_DATA
+#STEP 3: Import 2021_ibutton_names_clean.csv, that couples all of the future "name" assignments (site_rep_position_buttonID_season) to the button_id # (button_id).
+#STEP 4: Merge the filenames dataframe to the future names dataframe via the button_id.
+#STEP 5: Create new name out of the naming elements contained in the new "coupling" dataframe.
 
 ```{r }
 setwd('C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-20')
