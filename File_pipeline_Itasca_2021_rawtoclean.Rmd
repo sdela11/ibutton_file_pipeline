@@ -28,7 +28,7 @@ library(stringr)
 ## Making a dataframe from the filenames:
 
 #STEP 1: Make dataframe (file_df) to include: abridged filenames, the "name" (no '.csv'), full filenames
-#STEP 2: Split the name into its 3 elements: sensor #, serial #, and upload date.
+#STEP 2: Split the name into its 3 elements: sensor #, serial #, and upload date. Bind these together to form master.
 
 # 3- 5 only needed if using RAW_DATA
 #STEP 3: Import 2021_ibutton_names_clean.csv, that couples all of the future "name" assignments (site_rep_position_buttonID_season) to the button_id # (button_id).
@@ -39,12 +39,14 @@ library(stringr)
 
 getwd()
 
+#STEP 1:
 m <- list.files("./ibuttons/", pattern = "*.csv") #create a list of .csv files
 m
 
 
 file_df <- data.frame(paths = m, name = str_replace(m, ".csv",""), full_paths = list.files("./ibuttons/", pattern = "*.csv", full.names = TRUE)) #create dataframe with 3 columns: paths, name, and full_paths
 
+#STEP 2:
 f <- file_df$name #intermediate step, assigning "name" column to a variable to be used in g.
 g <- as.data.frame(str_split_fixed(f, "_", 3)) #create a separate dataframe (g) by splitting the name column into three elements.
 
@@ -52,15 +54,16 @@ master <- cbind(file_df,g) #bind file_df to the three name elements
 colnames(master) <- c("paths", "name", "full_paths", "sensor", "serial" , "upload_date")
 view(master)
 
+#STEP 3:
 h <- read.csv("2021_ibutton_names_clean.csv") %>% 
   as.data.frame() #import a .csv file that couples the future "name" assignments (site_rep_position_buttonID_season) to the button ID number.
 head(h)
 
-
+#STEP 4:
 master <- merge(master, h, by.x = "sensor", by.y = "button_id") #merge filenames dataframe to the future names dataframe via the button_id.
 head(master)
 
-#Create new name column with desired strings
+#STEP 5: Create new name column with desired strings
 
 master$new_name <- str_c(master$site, master$rep, master$position, master$sensor, master$season, sep = "_") #create a new_name out of these elements of the dataframe
 head(master)
