@@ -182,6 +182,10 @@ view(problems)
 
 
 
+#write.csv(finalTable, "ALL.csv")     ##Write the monster .csv
+
+my.data = read.csv("ALL.csv")
+view(my.data)
 
 ```
 ##
