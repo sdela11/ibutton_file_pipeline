@@ -2,38 +2,48 @@
 title: "File_pipeline_Itasca_2021"
 author: "Sara DeLaurentis"
 date: "1/10/2022"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_knit$set(root.dir = 'C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-20')
+
+#knitr::opts_chunk$set(root.dir = 'C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-20')
+
+```{r setup, include=TRUE}
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21")
 
 
 library(tidyverse)
 library(readxl)
 library(glue)
 library(stringr)
+library(lubridate)
 
 ```
 
 ## Making a dataframe from the filenames:
 
 #STEP 1: Make dataframe (file_df) to include: abridged filenames, the "name" (no '.csv'), full filenames
-#STEP 2: Split the name into its 3 elements: sensor #, serial #, and upload date.
+#STEP 2: Split the name into its 3 elements: sensor #, serial #, and upload date. Bind these together to form master.
 
 # 3- 5 only needed if using RAW_DATA
 #STEP 3: Import 2021_ibutton_names_clean.csv, that couples all of the future "name" assignments (site_rep_position_buttonID_season) to the button_id # (button_id).
 #STEP 4: Merge the filenames dataframe to the future names dataframe via the button_id.
 #STEP 5: Create new name out of the naming elements contained in the new "coupling" dataframe.
 
-```{r }
-setwd('C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-20')
+```{r RAWnames, include = TRUE}
+
+#getwd()
 
 #STEP 1:
 m <- list.files("./ibuttons/", pattern = "*.csv") #create a list of .csv files
 m
 
 file_df <- data.frame(paths = m, name = str_replace(m, ".csv",""), full_paths = list.files("./ibuttons/", pattern = "*.csv", full.names = TRUE)) #create dataframe with 3 columns: paths, name, and full_paths
+
 
 #STEP 2:
 f <- file_df$name #intermediate step, assigning "name" column to a variable to be used in g.
@@ -85,7 +95,9 @@ It's a good idea to run a test on one file before using pwalk or map2, which wil
 Use pwalk or map2. In this case, pwalk is fed the dataframe df_master, and will perform the function create_csv over each row.
 map2 uses 2 columns (df_master$full_paths, df_master$sensor) and uses the row position to match the inputs together. Both approaches will work.
 
-```{r }
+
+
+```{r csv function, include = TRUE}
 
 ##Sara's function: create_csv
 
@@ -109,7 +121,8 @@ create_csv <- function(full_paths, new_name){
     colnames(temps) <- c("date.time", "unit", "value")
   }
   
-  round(temps$date.time, "minutes") #get rid of ALL of the seconds
+  temps$date.time <- mdy_hms(temps$date.time, tz = "America/Chicago", truncated = 3) #Get R to recognize your current date format
+  temps$date.time <- as.POSIXct((round(temps$date.time, "mins")), tz = "America/Chicago") #Round off the seconds (turns into POSIXlt), re-convert to POSIXct.
   
   write_csv(temps, glue("./2021/{new_name}.csv"))
 }
@@ -118,26 +131,11 @@ create_csv <- function(full_paths, new_name){
 create_csv("./2021_ibuttons_copy/i11_3E00000069B0E841_101421.csv", "C2A_lksdfae9")
 
 
-#TEST CASES for troubleshooting:
-
-temps.z <- read.csv("./2021_ibuttons_copy/i11_3E00000069B0E841_101421.csv", skip = 20)
-
-#potentially helpful function (number of characters)
-nchar(temps.z[30,2])
-
-
-colnames(temps.z) <- c("date", "time", "unit", "value")
-temps.z$date.time <- str_c(temps.z$date, temps.z$time, sep = " ")
-head(temps.z)
-temps.z$date <- NULL
-temps.z$time <- NULL
-head(temps.z)
-
-
-
 ```
 
-```{r }
+##Time to iterate!
+
+```{r csv iterate, include = TRUE}
 
 #creating list of full_paths and sensors for input into the create_csv function
 df_master <- master %>% 
@@ -152,6 +150,6 @@ head(df_master)
 pwalk(df_master, create_csv)
 
 
-map2(df_master$full_paths, df_master$sensor, create_csv)
+#map2(df_master$full_paths, df_master$sensor, create_csv)
 
 ```
