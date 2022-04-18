@@ -8,14 +8,12 @@ output: html_document
 
 #knitr::opts_chunk$set(root.dir = 'C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-20')
 
-```{r setup, include=FALSE}
+```{r setup, include=TRUE}
 
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir = "C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21")
 
 
-#knitr::opts_knit
-#knitr::opts_chunk
 library(tidyverse)
 library(readxl)
 library(glue)
