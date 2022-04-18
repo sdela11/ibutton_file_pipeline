@@ -2,7 +2,9 @@
 title: "File_pipeline_Itasca_2021"
 author: "Sara DeLaurentis"
 date: "1/10/2022"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 
@@ -33,9 +35,9 @@ library(lubridate)
 #STEP 4: Merge the filenames dataframe to the future names dataframe via the button_id.
 #STEP 5: Create new name out of the naming elements contained in the new "coupling" dataframe.
 
-```{r }
+```{r RAWnames, include = TRUE}
 
-getwd()
+#getwd()
 
 #STEP 1:
 m <- list.files("./ibuttons/", pattern = "*.csv") #create a list of .csv files
@@ -99,7 +101,7 @@ Start by creating a dataframe based on the list of files.
 
 
 
-```{r }
+```{r make.filelist, include = TRUE}
 
 #create list of .csv files
 m <- list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv")
@@ -137,7 +139,7 @@ view(data.list.df)
 #2. Uses lapply to read in the .csv files and attaches metadata.
 
 
-```{r }
+```{r mega merge, include = TRUE}
 
 files.meta.list <- list()                   # Create empty list
 
@@ -192,7 +194,7 @@ view(my.data)
 ## For writing clean .csv files from RAW iButton inputs.
 
 
-```{r }
+```{r csv function, include = TRUE}
 
 ##Sara's function: create_csv
 
@@ -244,7 +246,7 @@ head(temps.z)
 
 ```
 
-```{r }
+```{r csv iterate, include = TRUE}
 
 #creating list of full_paths and sensors for input into the create_csv function
 df_master <- master %>% 
