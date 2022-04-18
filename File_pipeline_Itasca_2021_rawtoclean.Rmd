@@ -24,7 +24,6 @@ library(lubridate)
 
 ```
 
-
 ## Making a dataframe from the filenames:
 
 #STEP 1: Make dataframe (file_df) to include: abridged filenames, the "name" (no '.csv'), full filenames
@@ -43,8 +42,8 @@ library(lubridate)
 m <- list.files("./ibuttons/", pattern = "*.csv") #create a list of .csv files
 m
 
-
 file_df <- data.frame(paths = m, name = str_replace(m, ".csv",""), full_paths = list.files("./ibuttons/", pattern = "*.csv", full.names = TRUE)) #create dataframe with 3 columns: paths, name, and full_paths
+
 
 #STEP 2:
 f <- file_df$name #intermediate step, assigning "name" column to a variable to be used in g.
@@ -68,6 +67,7 @@ head(master)
 master$new_name <- str_c(master$site, master$rep, master$position, master$sensor, master$season, sep = "_") #create a new_name out of these elements of the dataframe
 head(master)
 view(master)
+
 
 ```
 ## Endgame:
