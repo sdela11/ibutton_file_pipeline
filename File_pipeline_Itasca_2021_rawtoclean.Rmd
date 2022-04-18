@@ -113,7 +113,7 @@ meta <- file_df$name %>%   #take the name column
    str_split_fixed("_", n=5) %>% #split the strings, with _ as separator.
    as.data.frame() #COERCE
   colnames(meta) <- c("site", "rep", "position", "buttonID", "season") #
-  meta$CLEAN = NULL 
+  #meta$CLEAN = NULL 
   
   
 data.list.df <- cbind(file_df, meta)
@@ -157,11 +157,11 @@ csv_LIST <- lapply(seq_along(files.meta.list), function(i){
   df$position <- files.meta.list[[i]]$position
   df$buttonID <- files.meta.list[[i]]$buttonID
   df$season <- files.meta.list[[i]]$season
-  print(df[1, "date.time"])
+  #print(df[1, "date.time"])
   df$date.time <- mdy_hms(df$date.time, tz = "America/Chicago", truncated = 3) #Get R to recognize your current date format
   df$date.time <- as.POSIXct((round(df$date.time, "mins")), tz = "America/Chicago") #Round off the seconds (turns into POSIXlt), re-convert to POSIXct.
-  print(df[1, "date.time"]) # for checks
-  print(df[4, "date.time"]) #for checks
+ # print(df[1, "date.time"]) # for checks
+ # print(df[4, "date.time"]) #for checks
   df #VERY IMPORTANT. I don't know why, but without this call for the whole dataframe, you get left with just the last column you created.
   })
 
@@ -188,7 +188,8 @@ my.data = read.csv("ALL.csv")
 view(my.data)
 
 ```
-##
+
+## For writing clean .csv files from RAW iButton inputs.
 
 
 ```{r }
