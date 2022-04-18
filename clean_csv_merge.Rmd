@@ -7,40 +7,33 @@ output: html_document
 
 ```{r setup, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21")
 
 
-
+library(tidyverse)
+library(glue)
+library(stringr)
+library(lubridate)
 
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## THIS IS THE CODE YOU'VE BEEN LOOKING FOR !!! ##
+## VERY COOOlll lists ##
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+1. Make dataframe out of filenames in the desired folder or selection.
+2. Turn each column into a list element with 5 named parts.
+3. lapply function to the list of csv files with attached metadata.
+    A. create df.
+    B. create metadata columns in each.
+    C. unify all date formats to POSIXct, format = YYYY-mm-dd HH:MM:SS
+4. rowbind all of the dataframes together!!!
+5. create .csv file.
 
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-##New, iterating code using lists, STARTS HERE!
 Start by creating a dataframe based on the list of files.
 
 
-
-```{r }
-
-
+```{r make.filelist, include = TRUE}
 
 #create list of .csv files
 m <- list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv")
@@ -54,7 +47,7 @@ meta <- file_df$name %>%   #take the name column
    str_split_fixed("_", n=5) %>% #split the strings, with _ as separator.
    as.data.frame() #COERCE
   colnames(meta) <- c("site", "rep", "position", "buttonID", "season") #
-  meta$CLEAN = NULL 
+  #meta$CLEAN = NULL 
   
   
 data.list.df <- cbind(file_df, meta)
@@ -68,9 +61,6 @@ view(data.list.df)
 ```
 
 
-### THIS IS THE CODE YOU'VE BEEN LOOKING FOR !!! ###
-### VERY COOOlll lists ###
-
 #What this does:
 
 #1. Takes the dataframe we created from the names of the selected files, turns each ROW into ONE list element with "site", "rep", etc. as named elements contained inside.
@@ -78,7 +68,7 @@ view(data.list.df)
 #2. Uses lapply to read in the .csv files and attaches metadata.
 
 
-```{r }
+```{r mega merge, include = TRUE}
 
 files.meta.list <- list()                   # Create empty list
 
@@ -98,11 +88,11 @@ csv_LIST <- lapply(seq_along(files.meta.list), function(i){
   df$position <- files.meta.list[[i]]$position
   df$buttonID <- files.meta.list[[i]]$buttonID
   df$season <- files.meta.list[[i]]$season
-  print(df[1, "date.time"])
+  #print(df[1, "date.time"])
   df$date.time <- mdy_hms(df$date.time, tz = "America/Chicago", truncated = 3) #Get R to recognize your current date format
   df$date.time <- as.POSIXct((round(df$date.time, "mins")), tz = "America/Chicago") #Round off the seconds (turns into POSIXlt), re-convert to POSIXct.
-  print(df[1, "date.time"]) # for checks
-  print(df[4, "date.time"]) #for checks
+ # print(df[1, "date.time"]) # for checks
+ # print(df[4, "date.time"]) #for checks
   df #VERY IMPORTANT. I don't know why, but without this call for the whole dataframe, you get left with just the last column you created.
   })
 
