@@ -37,9 +37,12 @@ Start by creating a dataframe based on the list of files.
 
 #create list of .csv files
 m <- list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv")
+m <- list.files("C:/Users/sbaue/coding/Itasca_project_19-21/iButtons", pattern = "*.csv")
+
 m
 
-file_df <- data.frame(paths = m, name = str_replace(m, ".csv", ""), full_paths = list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv", full.names = TRUE))
+file_df <- data.frame(paths = m, name = str_replace(m, ".csv", ""), full_paths =
+                        list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv", full.names = TRUE)) list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv", full.names = TRUE))
 
 file_df
 
