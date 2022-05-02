@@ -41,8 +41,13 @@ m <- list.files("C:/Users/sbaue/coding/Itasca_project_19-21/iButtons", pattern =
 
 m
 
+#for SARA'S DESKTOP
 file_df <- data.frame(paths = m, name = str_replace(m, ".csv", ""), full_paths =
-                        list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv", full.names = TRUE)) list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv", full.names = TRUE))
+                        list.files("C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21/iButtons", pattern = "*.csv", full.names = TRUE))
+
+#for SARA'S LAPTOP
+file_df <- data.frame(paths = m, name = str_replace(m, ".csv", ""), full_paths =
+                        list.files("C:/Users/sbaue/coding/Itasca_project_19-21/iButtons", pattern = "*.csv", full.names = TRUE))
 
 file_df
 
@@ -116,9 +121,10 @@ view(problems)
 
 
 
-#write.csv(finalTable, "ALL.csv")     ##Write the monster .csv
+write.csv(finalTable, "ALL.csv")     ##Write the monster .csv
 
 my.data = read.csv("ALL.csv")
 view(my.data)
+print(my.data[3000,2])
 
 ```
