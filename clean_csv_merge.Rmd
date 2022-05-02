@@ -125,6 +125,6 @@ write.csv(finalTable, "ALL.csv")     ##Write the monster .csv
 
 my.data = read.csv("ALL.csv")
 view(my.data)
-print(my.data[3000,2])
+print(my.data[3000,2]) 
 
 ```
