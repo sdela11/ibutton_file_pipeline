@@ -88,7 +88,7 @@ for(i in 1:nrow(data.list.df)) {   #for(each variable in the sequence "1 through
 
 #Step 2: 
 
-csv_LIST <- lapply(seq_along(files.meta.list), function(i){   
+csv_LIST_FUN <- lapply(seq_along(files.meta.list), function(i){   
 
   df <- read.csv(files.meta.list[[i]]$full_paths, header=TRUE, sep = ",") #create "df" by reading the .csv given by full_paths.
   df$name <- files.meta.list[[i]]$name  #next few rows are the addition of metadata columns based on the named element in the list.
@@ -105,7 +105,7 @@ csv_LIST <- lapply(seq_along(files.meta.list), function(i){
   df #VERY IMPORTANT. I don't know why, but without this call for the whole dataframe, you get left with just the last column you created.
   })
 
-finalTable <- do.call(rbind, csv_LIST) ##JOIN TOGETHER
+finalTable <- do.call(rbind, csv_LIST_FUN) ##JOIN TOGETHER
 
 class(finalTable$date.time)
 str(finalTable)
