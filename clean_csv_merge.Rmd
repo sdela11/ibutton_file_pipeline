@@ -91,7 +91,8 @@ for(i in 1:nrow(data.list.df)) {   #for(each variable in the sequence "1 through
 csv_LIST <- lapply(seq_along(files.meta.list), function(i){   
 
   df <- read.csv(files.meta.list[[i]]$full_paths, header=TRUE, sep = ",") #create "df" by reading the .csv given by full_paths.
-  df$site <- files.meta.list[[i]]$site    #next few rows are the addition of metadata columns based on the named element in the list. 
+  df$name <- files.meta.list[[i]]$name  #next few rows are the addition of metadata columns based on the named element in the list.
+  df$site <- files.meta.list[[i]]$site     
   df$rep <- files.meta.list[[i]]$rep
   df$position <- files.meta.list[[i]]$position
   df$buttonID <- files.meta.list[[i]]$buttonID
