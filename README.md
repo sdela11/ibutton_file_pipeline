@@ -21,3 +21,10 @@ Removes metadata header (optional) and standardizes columns. Solves the problem 
 Take clean csv files, convert all dates to unified POSIXct format, add columns of metadata.
 Bind all of them together.
 Creates ALL.csv !!!
+
+#QUICK_list_of_filenames.R
+Creates a quick list of filenames from desired folder. Name format: site_rep_position_buttonID_season
+originally used with files that had "meta" in the name, so it may need to be modified for future use.
+
+#data_cleaning.Rmd
+Creates edited version of ALL.csv, removing compromised data and outliers.
