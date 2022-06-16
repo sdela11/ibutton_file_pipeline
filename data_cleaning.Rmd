@@ -38,10 +38,18 @@ data <- read.csv("ALL.csv")
 data.na <- data[is.na(data$value),]
 na.length <- length(c(data.na$X))
 
+#is D2B_R3_lsurf_i90_2021 still in the file?
+D2B_R3_lsurf <- data[grep("D2B_R3_lsurf_i90_2021", data$name),]
+D2B_R3_l_length <- length(c(D2B_R3_lsurf$X))
+
+
+
 ```
 
 ##
 2022-06-16: there are `r na.length` rows with NA datapoints in the value column, from former data cleaning.
+2022-06-16: D2B_R3_lsurf_i90_2021, which came from a compromised sensor, is still present. Length = `r `D2B_R3_l_length`.  
+
 
 
 ```{r two}
