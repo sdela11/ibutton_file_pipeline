@@ -24,7 +24,12 @@ library(knitr)
 
 ```
 
-Purpose: Data cleaning - Compromised data and Outlier removal - create modified ALL.csv
+Purpose: Data cleaning - Compromised data and Outlier removal - create modified ALL.csv  
+  
+  
+  
+  
+#### Data viewing and removal
 
 ```{r NA-collection, echo = TRUE}
 data <- read.csv("ALL.csv")
