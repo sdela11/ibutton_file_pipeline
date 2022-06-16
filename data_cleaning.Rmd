@@ -37,18 +37,29 @@ data <- read.csv("ALL.csv")
 #find NAs 
 data.na <- data[is.na(data$value),]
 na.length <- length(c(data.na$X))
+na.namestring <- c(data.na$name[!duplicated(data.na$name)])
+
 
 #is D2B_R3_lsurf_i90_2021 still in the file?
 D2B_R3_lsurf <- data[grep("D2B_R3_lsurf_i90_2021", data$name),]
 D2B_R3_l_length <- length(c(D2B_R3_lsurf$X))
 
+#Site C5A:
 
+#C5A R1 lsurf i15 2021 was placed in woodpile.
+#C5A R1 m0surf i16 2021 was placed in woodpile.
+#C5A R1 m10 i17 2021 seems to have been removed around 3/17/2021.
+#R1 m30 and m50 2021 are intact.
+#R3 m01surf i24 2021 was placed in woodpile at unknown date.
+#
 
 ```
 
 ##
-2022-06-16: there are `r na.length` rows with NA datapoints in the value column, from former data cleaning.
-2022-06-16: D2B_R3_lsurf_i90_2021, which came from a compromised sensor, is still present. Length = `r `D2B_R3_l_length`.  
+2022-06-16: there are `r na.length` rows with NA datapoints in the value column, from former data cleaning.  
+Sites with NA values are `r na.namestring`.  
+Majority are within C2B_R3_lsurf (2021), the others have one or two points each due to extreme temperature anomalies.  
+2022-06-16: D2B_R3_lsurf_i90_2021, which came from a compromised sensor, is still present. Length = `r D2B_R3_l_length`.  
 
 
 
