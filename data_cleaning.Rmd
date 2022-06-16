@@ -19,7 +19,7 @@ library(dplyr)
 library(stringr)
 library(glue)
 library(knitr)
-
+library(lubridate)
 
 
 ```
@@ -45,6 +45,30 @@ D2B_R3_lsurf <- data[grep("D2B_R3_lsurf_i90_2021", data$name),]
 D2B_R3_l_length <- length(c(D2B_R3_lsurf$X))
 
 #Site C5A:
+
+
+C5A_lsurf <- data[data$site == "C5A" & (data$position == "lsurf" | data$position == "m01surf") & data$season == "2021",]
+str(C5A_lsurf)
+
+png("C5A_lsurf_compare.png", width = 6000, height = 1000)
+myplot <- ggplot(data = C5A_lsurf, mapping = aes(x = as.POSIXct(date.time), y = value)) +
+  geom_line(aes(color = rep))
+print(myplot)
+dev.off()
+
+C5A_lsurf_daily <- C5A_lsurf %>% 
+  group_by(date(date.time),name) %>% 
+  mutate(daily_mean = mean(value)) %>% 
+  distinct(date(date.time), .keep_all = TRUE) %>% 
+  ungroup()
+C5A_lsurf_daily$date <- C5A_lsurf_daily$`date(date.time)`
+str(C5A_lsurf_daily)
+
+png("C5A_lsurf_mean_compare.png", width = 1500, height = 250)
+myplot <- ggplot(data = C5A_lsurf_daily, mapping = aes(x = ymd(date), y = daily_mean)) +
+  geom_line(aes(color = rep))
+print(myplot)
+dev.off()
 
 #C5A R1 lsurf i15 2021 was placed in woodpile.
 #C5A R1 m0surf i16 2021 was placed in woodpile.
