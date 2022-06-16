@@ -4,6 +4,7 @@ author: "Sara DeLaurentis"
 date: "6/16/2022"
 output: html_document
 purpose: Data cleaning - Compromised data and Outlier removal
+           -create modified ALL.csv
 ---
 
 ```{r setup, include=FALSE}
