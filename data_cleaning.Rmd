@@ -44,17 +44,41 @@ na.namestring <- c(data.na$name[!duplicated(data.na$name)])
 D2B_R3_lsurf <- data[grep("D2B_R3_lsurf_i90_2021", data$name),]
 D2B_R3_l_length <- length(c(D2B_R3_lsurf$X))
 
-#Site C5A:
+```
 
+#### Notes on Site C5A  
+
+# C5A R1 lsurf i15 2021 was placed in woodpile.  
+# C5A R1 m0surf i16 2021 was placed in woodpile.  
+# C5A R1 m10 i17 2021 seems to have been removed around 3/17/2021.  
+# R1 m30 and m50 2021 are intact.  
+# R3 m01surf i24 2021 was placed in woodpile at unknown date.  
+```{r C5A}
+#Site C5A:
 
 C5A_lsurf <- data[data$site == "C5A" & (data$position == "lsurf" | data$position == "m01surf") & data$season == "2021",]
 str(C5A_lsurf)
+
+```
+
+2022-06-16: there are `r na.length` rows with NA datapoints in the value column, from former data cleaning.  
+Sites with NA values are `r na.namestring`.  
+Majority are within C2B_R3_lsurf (2021), the others have one or two points each due to extreme temperature anomalies.  
+2022-06-16: D2B_R3_lsurf_i90_2021, which came from a compromised sensor, is still present. Length = `r D2B_R3_l_length`.  
+
+
+```{r C5A_lsurf_compare}
 
 png("C5A_lsurf_compare.png", width = 6000, height = 1000)
 myplot <- ggplot(data = C5A_lsurf, mapping = aes(x = as.POSIXct(date.time), y = value)) +
   geom_line(aes(alpha = 0.6, color = rep))
 print(myplot)
 dev.off()
+
+```
+
+
+```{r C5A_lsurf_daily_compare}
 
 C5A_lsurf_daily <- C5A_lsurf %>% 
   group_by(date(date.time),name) %>% 
@@ -70,8 +94,11 @@ myplot <- ggplot(data = C5A_lsurf_daily, mapping = aes(x = ymd(date), y = daily_
 print(myplot)
 dev.off()
 
-#Checking on 2020 dataset for comparisons
+```
 
+# Checking on 2020 dataset for comparisons
+
+```{r C5A_lsurf_compare_2020}
 C5A_lsurf_2020 <- data[data$site == "C5A" & (data$position == "lsurf" | data$position == "m01surf") & data$season == "2020",]
 str(C5A_lsurf_2020)
 
@@ -80,6 +107,11 @@ myplot <- ggplot(data = C5A_lsurf_2020, mapping = aes(x = as.POSIXct(date.time),
   geom_line(aes(alpha = 0.6, color = name)) 
 print(myplot)
 dev.off()
+
+```
+
+
+```{r C5A_lsurf_mean_compare_2020}
 
 C5A_lsurf_daily_2020 <- C5A_lsurf_2020 %>% 
   group_by(date(date.time),name) %>% 
@@ -95,7 +127,11 @@ myplot <- ggplot(data = C5A_lsurf_daily_2020, mapping = aes(x = ymd(date), y = d
 print(myplot)
 dev.off()
 
-#2021 all woodpile sensors
+```
+
+```{r woodpile}
+# 2021 all woodpile sensors
+
 woodpile <- data %>% 
   filter(name == "C5A_R1_lsurf_i15_2021" | name == "C5A_R1_m0surf_i16_2021" | name == "C5A_R1_m10_i17_2021" | name == "C5A_R3_m01surf_i24_2021")
 str(woodpile)
@@ -105,12 +141,13 @@ myplot <- ggplot(data = woodpile, mapping = aes(x = as.POSIXct(date.time), y = v
   geom_line(aes(alpha = 0.6, color = name))
 print(myplot)
 dev.off()
-#C5A R1 lsurf i15 2021 was placed in woodpile.
-#C5A R1 m0surf i16 2021 was placed in woodpile.
-#C5A R1 m10 i17 2021 seems to have been removed around 3/17/2021.
-#R1 m30 and m50 2021 are intact.
-#R3 m01surf i24 2021 was placed in woodpile at unknown date.
-#
+
+```
+
+
+
+
+```{r D5A_lsurf}
 
 D5A_lsurf <- data[data$site == "D5A" & (data$position == "lsurf" | data$position == "m01surf" | data$position == "air") & data$season == "2021",]
 str(D5A_lsurf)
@@ -123,11 +160,8 @@ dev.off()
 
 ```
 
-##
-2022-06-16: there are `r na.length` rows with NA datapoints in the value column, from former data cleaning.  
-Sites with NA values are `r na.namestring`.  
-Majority are within C2B_R3_lsurf (2021), the others have one or two points each due to extreme temperature anomalies.  
-2022-06-16: D2B_R3_lsurf_i90_2021, which came from a compromised sensor, is still present. Length = `r D2B_R3_l_length`.  
+
+
 
 
 
