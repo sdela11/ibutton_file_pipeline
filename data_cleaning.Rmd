@@ -46,13 +46,22 @@ D2B_R3_l_length <- length(c(D2B_R3_lsurf$X))
 
 ```
 
+2022-06-16: there are `r na.length` rows with NA datapoints in the value column, from former data cleaning.  
+Sites with NA values are `r na.namestring`.  
+Majority are within C2B_R3_lsurf (2021), the others have one or two points each due to extreme temperature anomalies.  
+2022-06-16: D2B_R3_lsurf_i90_2021, which came from a compromised sensor, is still present. Length = `r D2B_R3_l_length`.  
+
+
+
 #### Notes on Site C5A  
 
-# C5A R1 lsurf i15 2021 was placed in woodpile.  
-# C5A R1 m0surf i16 2021 was placed in woodpile.  
-# C5A R1 m10 i17 2021 seems to have been removed around 3/17/2021.  
-# R1 m30 and m50 2021 are intact.  
-# R3 m01surf i24 2021 was placed in woodpile at unknown date.  
+
+C5A R1 lsurf i15 2021 was placed in woodpile.  
+C5A R1 m0surf i16 2021 was placed in woodpile.  
+C5A R1 m10 i17 2021 seems to have been removed around 3/17/2021.  
+R1 m30 and m50 2021 are intact.  
+R3 m01surf i24 2021 was placed in woodpile at unknown date.  
+
 ```{r C5A}
 #Site C5A:
 
@@ -61,13 +70,10 @@ str(C5A_lsurf)
 
 ```
 
-2022-06-16: there are `r na.length` rows with NA datapoints in the value column, from former data cleaning.  
-Sites with NA values are `r na.namestring`.  
-Majority are within C2B_R3_lsurf (2021), the others have one or two points each due to extreme temperature anomalies.  
-2022-06-16: D2B_R3_lsurf_i90_2021, which came from a compromised sensor, is still present. Length = `r D2B_R3_l_length`.  
 
 
-```{r C5A_lsurf_compare}
+
+```{r C5A_lsurf_compare, echo = FALSE}
 
 png("C5A_lsurf_compare.png", width = 6000, height = 1000)
 myplot <- ggplot(data = C5A_lsurf, mapping = aes(x = as.POSIXct(date.time), y = value)) +
@@ -78,7 +84,7 @@ dev.off()
 ```
 
 
-```{r C5A_lsurf_daily_compare}
+```{r C5A_lsurf_daily_compare, echo = FALSE}
 
 C5A_lsurf_daily <- C5A_lsurf %>% 
   group_by(date(date.time),name) %>% 
