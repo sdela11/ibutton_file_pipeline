@@ -102,9 +102,10 @@ dev.off()
 
 ```
 
-# Checking on 2020 dataset for comparisons
+#### Checking on 2020 dataset for comparisons
 
 ```{r C5A_lsurf_compare_2020}
+
 C5A_lsurf_2020 <- data[data$site == "C5A" & (data$position == "lsurf" | data$position == "m01surf") & data$season == "2020",]
 str(C5A_lsurf_2020)
 
@@ -135,6 +136,8 @@ dev.off()
 
 ```
 
+#### Plotting all "woodpile" sensors together for comparison
+
 ```{r woodpile}
 # 2021 all woodpile sensors
 
@@ -151,7 +154,7 @@ dev.off()
 ```
 
 
-
+#### Checking variability within D5A surface sensors for comparison
 
 ```{r D5A_lsurf}
 
