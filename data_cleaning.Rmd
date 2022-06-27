@@ -54,13 +54,17 @@ Majority are within C2B_R3_lsurf (2021), the others have one or two points each 
 
 
 #### Notes on Site C5A  
-
+See C5A_2021_data_checks.Rmd for plot comparison and decision-making rationale.
 
 C5A R1 lsurf i15 2021 was placed in woodpile.  
 C5A R1 m0surf i16 2021 was placed in woodpile.  
 C5A R1 m10 i17 2021 seems to have been removed around 3/17/2021.  
 R1 m30 and m50 2021 are intact.  
 R3 m01surf i24 2021 was placed in woodpile at unknown date.  
+  
+Degree-day analysis will be performed with ALL C5A sensors except m10 R1, and then with any potentially compromised sensors removed.
+
+R1 m30 and m50 will remain in the set because the data is obviously still valid.
 
 ```{r C5A}
 #Site C5A:
@@ -71,103 +75,6 @@ str(C5A_lsurf)
 ```
 
 
-
-
-```{r C5A_lsurf_compare, echo = FALSE}
-
-png("C5A_lsurf_compare.png", width = 6000, height = 1000)
-myplot <- ggplot(data = C5A_lsurf, mapping = aes(x = as.POSIXct(date.time), y = value)) +
-  geom_line(aes(alpha = 0.6, color = rep))
-print(myplot)
-dev.off()
-
-```
-
-
-```{r C5A_lsurf_daily_compare, echo = FALSE}
-
-C5A_lsurf_daily <- C5A_lsurf %>% 
-  group_by(date(date.time),name) %>% 
-  mutate(daily_mean = mean(value)) %>% 
-  distinct(date(date.time), .keep_all = TRUE) %>% 
-  ungroup()
-C5A_lsurf_daily$date <- C5A_lsurf_daily$`date(date.time)`
-str(C5A_lsurf_daily)
-
-png("C5A_lsurf_mean_compare.png", width = 1500, height = 250)
-myplot <- ggplot(data = C5A_lsurf_daily, mapping = aes(x = ymd(date), y = daily_mean)) +
-  geom_line(aes(alpha = 0.6, color = rep))
-print(myplot)
-dev.off()
-
-```
-
-#### Checking on 2020 dataset for comparisons
-
-```{r C5A_lsurf_compare_2020}
-
-C5A_lsurf_2020 <- data[data$site == "C5A" & (data$position == "lsurf" | data$position == "m01surf") & data$season == "2020",]
-str(C5A_lsurf_2020)
-
-png("C5A_lsurf_compare_2020.png", width = 6000, height = 1000)
-myplot <- ggplot(data = C5A_lsurf_2020, mapping = aes(x = as.POSIXct(date.time), y = value)) +
-  geom_line(aes(alpha = 0.6, color = name)) 
-print(myplot)
-dev.off()
-
-```
-
-
-```{r C5A_lsurf_mean_compare_2020}
-
-C5A_lsurf_daily_2020 <- C5A_lsurf_2020 %>% 
-  group_by(date(date.time),name) %>% 
-  mutate(daily_mean = mean(value)) %>% 
-  distinct(date(date.time), .keep_all = TRUE) %>% 
-  ungroup()
-C5A_lsurf_daily_2020$date <- C5A_lsurf_daily_2020$`date(date.time)`
-str(C5A_lsurf_daily_2020)
-
-png("C5A_lsurf_mean_compare_2020.png", width = 1500, height = 250)
-myplot <- ggplot(data = C5A_lsurf_daily_2020, mapping = aes(x = ymd(date), y = daily_mean)) +
-  geom_line(aes(alpha = 0.6, color = name))
-print(myplot)
-dev.off()
-
-```
-
-#### Plotting all "woodpile" sensors together for comparison
-
-```{r woodpile}
-# 2021 all woodpile sensors
-
-woodpile <- data %>% 
-  filter(name == "C5A_R1_lsurf_i15_2021" | name == "C5A_R1_m0surf_i16_2021" | name == "C5A_R1_m10_i17_2021" | name == "C5A_R3_m01surf_i24_2021")
-str(woodpile)
-
-png("C5A_woodpile_compare.png", width = 6000, height = 1000)
-myplot <- ggplot(data = woodpile, mapping = aes(x = as.POSIXct(date.time), y = value)) +
-  geom_line(aes(alpha = 0.6, color = name))
-print(myplot)
-dev.off()
-
-```
-
-
-#### Checking variability within D5A surface sensors for comparison
-
-```{r D5A_lsurf}
-
-D5A_lsurf <- data[data$site == "D5A" & (data$position == "lsurf" | data$position == "m01surf" | data$position == "air") & data$season == "2021",]
-str(D5A_lsurf)
-
-png("D5A_lsurf_compare.png", width = 6000, height = 1000)
-myplot <- ggplot(data = D5A_lsurf, mapping = aes(x = as.POSIXct(date.time), y = value)) +
-  geom_line(aes(alpha = 0.5, color = name))
-print(myplot)
-dev.off()
-
-```
 
 
 
