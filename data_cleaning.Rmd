@@ -51,7 +51,12 @@ Sites with NA values are `r na.namestring`.
 Majority are within C2B_R3_lsurf (2021), the others have one or two points each due to extreme temperature anomalies.  
 2022-06-16: D2B_R3_lsurf_i90_2021, which came from a compromised sensor, is still present. Length = `r D2B_R3_l_length`.  
 
+```{r }
 
+data.cut1 <- data
+
+
+```
 
 #### Notes on Site C5A  
 See C5A_2021_data_checks.Rmd for plot comparison and decision-making rationale.
@@ -67,10 +72,14 @@ Degree-day analysis will be performed with ALL C5A sensors except m10 R1, and th
 R1 m30 and m50 will remain in the set because the data is obviously still valid.
 
 ```{r C5A}
-#Site C5A:
 
-C5A_lsurf <- data[data$site == "C5A" & (data$position == "lsurf" | data$position == "m01surf") & data$season == "2021",]
-str(C5A_lsurf)
+#Remove C5A_R1_m10_2021:
+A <- data[data$name == "C5A_R1_m10_i17_2021",]
+str(A)
+B <- data[data$name == "C5A_R1_lsurf_i15_2021",]
+C <- data[data$name == "C5A_R1_m0surf_i16_2021",]
+D <- data[data$name == "C5A_R3_m01surf_i24_2021",]
+woodpile <- c(A,B,C,D)
 
 ```
 
