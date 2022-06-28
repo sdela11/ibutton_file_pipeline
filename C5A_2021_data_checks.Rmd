@@ -23,7 +23,13 @@ library(lubridate)
 
 ```
 
+```{r C5A}
+data <- read.csv("ALL.csv")
+C5A_lsurf <- data[data$site == "C5A" & (data$position == "lsurf" | data$position == "m01surf") & data$season == "2021", ]
+str(C5A_lsurf)
 
+
+```
 
 
 ```{r C5A_lsurf_compare, echo = FALSE}
@@ -109,7 +115,7 @@ dev.off()
 
 #### Checking variability within D5A surface sensors for comparison
 
-```{r D5A_lsurf}
+```{r D5A_lsurf, echo = FALSE}
 
 D5A_lsurf <- data[data$site == "D5A" & (data$position == "lsurf" | data$position == "m01surf" | data$position == "air") & data$season == "2021",]
 str(D5A_lsurf)
@@ -119,6 +125,11 @@ myplot <- ggplot(data = D5A_lsurf, mapping = aes(x = as.POSIXct(date.time), y = 
   geom_line(aes(alpha = 0.5, color = name))
 print(myplot)
 dev.off()
+
+#non-png output
+myplot <- ggplot(data = D5A_lsurf, mapping = aes(x = as.POSIXct(date.time), y = value)) +
+  geom_line(aes(alpha = 0.5, color = name))
+plot(myplot)
 
 ```
 
