@@ -74,12 +74,21 @@ R1 m30 and m50 will remain in the set because the data is obviously still valid.
 ```{r C5A}
 
 #Remove C5A_R1_m10_2021:
-A <- data[data$name == "C5A_R1_m10_i17_2021",] #selects all rows for sensor 17, season 2021
-str(A)
-B <- data[data$name == "C5A_R1_lsurf_i15_2021",] #selects all rows for sensor 15, season 2021
-C <- data[data$name == "C5A_R1_m0surf_i16_2021",] #all rows for sensor 16, season 2021
-D <- data[data$name == "C5A_R3_m01surf_i24_2021",] #all rows for sensor 24, season 2021
+
+data.cut1 <- data.cut1[-(data.cut1$name == "C5A_R1_m10_i17" | data.cut1$name == "C5A_R1_lsurf_i15_2021" | 
+                           data.cut1$name == "C5A_m0surf_i16_2021" | data.cut1$name == "C5A_R3_m01surf_i24_2021"),]
+  
+A <- data.cut1[data.cut1$name == "C5A_R1_m10_i17_2021",] #selects all rows for sensor 17, season 2021
+B <- data.cut1[data.cut1$name == "C5A_R1_lsurf_i15_2021",] #selects all rows for sensor 15, season 2021
+C <- data.cut1[data.cut1$name == "C5A_R1_m0surf_i16_2021",] #all rows for sensor 16, season 2021
+D <- data.cut1[data.cut1$name == "C5A_R3_m01surf_i24_2021",] #all rows for sensor 24, season 2021
 woodpile <- c(A,B,C,D)
+str(woodpile)
+str(A)
+str(B)
+str(C)
+str(D)
+
 
 
 ```
