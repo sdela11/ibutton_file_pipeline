@@ -33,6 +33,7 @@ Purpose: Data cleaning - Compromised data and Outlier removal - create modified 
 
 ```{r NA-collection, echo = TRUE}
 data <- read.csv("ALL.csv")
+view(data)
 
 #find NAs 
 data.na <- data[is.na(data$value),]
