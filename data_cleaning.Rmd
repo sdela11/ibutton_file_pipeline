@@ -13,7 +13,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 
 library(tidyverse)
 library(dplyr)
@@ -103,6 +103,8 @@ str(D)
 
 
 ```{r two}
+write.csv(as.data.frame(data.cut1), "ALL_A.csv")
+
 
 
 ```
