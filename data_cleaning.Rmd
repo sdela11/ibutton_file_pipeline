@@ -111,7 +111,7 @@ str(E)
 
 
 ```{r three}
-#write.csv(as.data.frame(data.cut1), "ALL_A.csv")
+write.csv(as.data.frame(data.cut2), "ALL_A.csv")
 
 
 ```
