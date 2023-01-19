@@ -56,7 +56,7 @@ Majority are within C2B_R3_lsurf (2021), the others have one or two points each 
 ```{r }
 
 data.cut1 <- data
-
+#view(data.cut1)
 
 ```
 
@@ -100,11 +100,18 @@ str(D)
 
 
 
+```{r D2B}
+
+data.cut2 <- data.cut1[!(data.cut1$name == "D2B_R3_lsurf_i90_2021"),]
+
+E <- data.cut2[(data.cut2$name == "D2B_R3_lsurf_i90_2021"),]
+str(E)
+
+```
 
 
-```{r two}
-write.csv(as.data.frame(data.cut1), "ALL_A.csv")
-
+```{r three}
+#write.csv(as.data.frame(data.cut1), "ALL_A.csv")
 
 
 ```
