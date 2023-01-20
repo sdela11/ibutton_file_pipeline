@@ -14,7 +14,8 @@ output:
 
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir = "C:/Users/sbaue/coding/R_TEMPRY/Itasca_project_19-21")
-
+getwd()
+setwd("C:/Users/sbaue/coding/Itasca_project_19-21/IButton2021_Unmodified")
 
 library(tidyverse)
 library(readxl)
@@ -37,9 +38,10 @@ library(lubridate)
 ```{r RAWnames, include = TRUE}
 
 #getwd()
-
+setwd("C:/Users/sbaue/coding/Itasca_project_19-21")
+getwd()
 #STEP 1:
-m <- list.files("./ibuttons/", pattern = "*.csv") #create a list of .csv files
+m <- list.files("C:/Users/sbaue/coding/Itasca_project_19-21/IButton2021_Unmodified/", pattern = "*.csv") #create a list of .csv files
 m
 
 file_df <- data.frame(paths = m, name = str_replace(m, ".csv",""), full_paths = list.files("./ibuttons/", pattern = "*.csv", full.names = TRUE)) #create dataframe with 3 columns: paths, name, and full_paths
