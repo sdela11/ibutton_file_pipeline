@@ -3,16 +3,17 @@ title: "Data cleaning"
 author: "Sara DeLaurentis"
 date: "6/16/2022"
 output:
+  word_document:
+    toc: yes
   html_document:
-    toc: true
-    toc_float: true  
-    theme: cerulean  
-    highlight: kate  
-  
+    toc: yes
+    toc_float: yes
+    theme: cerulean
+    highlight: kate
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 
 library(tidyverse)
 library(dplyr)
@@ -33,7 +34,7 @@ Purpose: Data cleaning - Compromised data and Outlier removal - create modified 
 
 ```{r NA-collection, echo = TRUE}
 data <- read.csv("ALL.csv")
-view(data)
+#view(data)
 
 #find NAs 
 data.na <- data[is.na(data$value),]
@@ -55,7 +56,7 @@ Majority are within C2B_R3_lsurf (2021), the others have one or two points each 
 ```{r }
 
 data.cut1 <- data
-
+#view(data.cut1)
 
 ```
 
@@ -76,21 +77,21 @@ R1 m30 and m50 will remain in the set because the data is obviously still valid.
 
 #Remove compromised C5A sensors:
 
-data.cut1 <- data.cut1[-(data.cut1$name == "C5A_R1_m10_i17" | data.cut1$name == "C5A_R1_lsurf_i15_2021" | 
-                           data.cut1$name == "C5A_m0surf_i16_2021" | data.cut1$name == "C5A_R3_m01surf_i24_2021"),]
-  
+data.cut1 <- data.cut1[!(data.cut1$name == "C5A_R1_m10_i17_2021" | data.cut1$name == "C5A_R1_lsurf_i15_2021" | data.cut1$name == "C5A_R1_m0surf_i16_2021" | data.cut1$name == "C5A_R3_m01surf_i24_2021"),]
+
+str(data.cut1)
+
+#Are they all gone?
 A <- data.cut1[data.cut1$name == "C5A_R1_m10_i17_2021",] #selects all rows for sensor 17, season 2021
 B <- data.cut1[data.cut1$name == "C5A_R1_lsurf_i15_2021",] #selects all rows for sensor 15, season 2021
 C <- data.cut1[data.cut1$name == "C5A_R1_m0surf_i16_2021",] #all rows for sensor 16, season 2021
 D <- data.cut1[data.cut1$name == "C5A_R3_m01surf_i24_2021",] #all rows for sensor 24, season 2021
-woodpile <- c(A,B,C,D)
-str(woodpile)
 str(A)
 str(B)
 str(C)
 str(D)
 
-
+#There should be only ZEROES.
 
 ```
 
@@ -99,9 +100,18 @@ str(D)
 
 
 
+```{r D2B}
+
+data.cut2 <- data.cut1[!(data.cut1$name == "D2B_R3_lsurf_i90_2021"),]
+
+E <- data.cut2[(data.cut2$name == "D2B_R3_lsurf_i90_2021"),]
+str(E)
+
+```
 
 
-```{r two}
+```{r three}
+write.csv(as.data.frame(data.cut2), "ALL_A.csv")
 
 
 ```
