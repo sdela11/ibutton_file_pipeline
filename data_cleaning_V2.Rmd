@@ -1,0 +1,119 @@
+---
+title: "Data cleaning V2"
+author: "Sara DeLaurentis"
+date: "6/16/2022"
+output:
+  word_document:
+    toc: yes
+  html_document:
+    toc: yes
+    toc_float: yes
+    theme: cerulean
+    highlight: kate
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+library(dplyr)
+library(stringr)
+library(glue)
+library(knitr)
+library(lubridate)
+
+
+```
+
+Purpose: Data cleaning - Compromised data and Outlier removal - create modified ALL.csv  
+  
+  V2 changes: Change missing or deleted values to NAs instead of removing completely.
+  
+  
+#### Data viewing and removal
+
+```{r NA-collection, echo = TRUE}
+data <- read.csv("ALL.csv")
+#view(data)
+
+#find NAs 
+data.na <- data[is.na(data$value),]
+na.length <- length(c(data.na$X))
+na.namestring <- c(data.na$name[!duplicated(data.na$name)])
+
+
+#is D2B_R3_lsurf_i90_2021 still in the file?
+D2B_R3_lsurf <- data[grep("D2B_R3_lsurf_i90_2021", data$name),]
+D2B_R3_l_length <- length(c(D2B_R3_lsurf$X))
+
+```
+
+2022-06-16: there are `r na.length` rows with NA datapoints in the value column, from former data cleaning.  
+Sites with NA values are `r na.namestring`.  
+Majority are within C2B_R3_lsurf (2021), the others have one or two points each due to extreme temperature anomalies.  
+2022-06-16: D2B_R3_lsurf_i90_2021, which came from a compromised sensor, is still present. Length = `r D2B_R3_l_length`.  
+
+```{r }
+
+data.cut1 <- data
+#view(data.cut1)
+
+```
+
+#### Notes on Site C5A  
+See C5A_2021_data_checks.Rmd for plot comparison and decision-making rationale.
+
+C5A R1 lsurf i15 2021 was placed in woodpile.  
+C5A R1 m0surf i16 2021 was placed in woodpile.  
+C5A R1 m10 i17 2021 seems to have been removed around 3/17/2021.  
+R1 m30 and m50 2021 are intact.  
+R3 m01surf i24 2021 was placed in woodpile at unknown date.  
+  
+Degree-day analysis will be performed with ALL C5A sensors except m10 R1, and then with any potentially compromised sensors removed.
+
+R1 m30 and m50 will remain in the set because the data is obviously still valid.
+
+```{r C5A}
+
+#Remove compromised C5A sensors:
+
+data.cut1 <- data.cut1[!(data.cut1$name == "C5A_R1_m10_i17_2021" | data.cut1$name == "C5A_R1_lsurf_i15_2021" | data.cut1$name == "C5A_R1_m0surf_i16_2021" | data.cut1$name == "C5A_R3_m01surf_i24_2021"),]
+
+str(data.cut1)
+
+#Are they all gone?
+A <- data.cut1[data.cut1$name == "C5A_R1_m10_i17_2021",] #selects all rows for sensor 17, season 2021
+B <- data.cut1[data.cut1$name == "C5A_R1_lsurf_i15_2021",] #selects all rows for sensor 15, season 2021
+C <- data.cut1[data.cut1$name == "C5A_R1_m0surf_i16_2021",] #all rows for sensor 16, season 2021
+D <- data.cut1[data.cut1$name == "C5A_R3_m01surf_i24_2021",] #all rows for sensor 24, season 2021
+str(A)
+str(B)
+str(C)
+str(D)
+
+#There should be only ZEROES.
+
+```
+
+
+
+
+
+
+```{r D2B}
+
+data.cut2 <- data.cut1[!(data.cut1$name == "D2B_R3_lsurf_i90_2021"),]
+
+E <- data.cut2[(data.cut2$name == "D2B_R3_lsurf_i90_2021"),]
+str(E)
+
+```
+
+
+```{r three}
+write.csv(as.data.frame(data.cut2), "ALL_A.csv")
+
+
+```
+
+
